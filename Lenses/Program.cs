@@ -9,9 +9,18 @@ namespace Lenses
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            new { A = 1 }.With(x => x.A, 2);
+        class A { 
+        public int X { get; set; } 
+        public int Y { get; set; }
+            public override string ToString()
+            {
+                return "X:" + X + " Y:" + Y;
+            }
         }
+        static void Main()
+        {
+            Console.WriteLine(new A { X = 1 }.With(x => x.X = 2));
+        }
+
     }
 }

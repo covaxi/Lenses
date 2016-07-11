@@ -44,5 +44,17 @@ namespace Lenses.Extensions
 
             return result;
         }
+
+        public static T With<T>(this T obj, Action<T> action) 
+        {
+            var type = obj.GetType();
+            var result = (T)type.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
+            foreach (var prop in type.GetProperties())
+            {
+                prop.SetMethod.Invoke(result, new[] { prop.GetMethod.Invoke(obj, new object[0]) });
+            }
+            action(result);
+            return result;
+        }
     }
 }
