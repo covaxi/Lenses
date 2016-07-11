@@ -26,6 +26,16 @@ namespace Lenses.Extensions
 
         public static T With<T, TProp>(this T obj, Expression<Func<T, TProp>> getter, TProp value)
         {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            if (getter == null)
+            {
+                throw new ArgumentNullException(nameof(getter));
+            }
+
             var type = obj.GetType();
             var properties = type.GetProperties().ToDictionary(p => p.Name);
             var name = ((MemberExpression)getter.Body).Member.Name;
@@ -47,6 +57,16 @@ namespace Lenses.Extensions
 
         public static T With<T>(this T obj, Action<T> action) 
         {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            if (action == null) 
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             var type = obj.GetType();
             var result = (T)type.GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
             foreach (var prop in type.GetProperties())
